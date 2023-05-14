@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
 const Wordhistogram = () => {
-  const [histogramData, setHistogramData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [histData, sethistData] = useState([]);
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
-    if (histogramData.length > 0) {
+    if (histData.length > 0) {
       renderHistogram();
     }
-  }, [histogramData]);
+  }, [histData]);
 
-  const fetchHistogramData = async () => {
-    setIsLoading(true);
+  const datafetch = async () => {
+    setloading(true);
     try {
       const response = await fetch(
         'https://www.terriblytinytales.com/test.txt'
@@ -26,18 +26,18 @@ const Wordhistogram = () => {
       const sortedData = Object.entries(wordCountMap)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 20);
-      setHistogramData(sortedData);
+      sethistData(sortedData);
     } catch (error) {
       console.error('Error fetching histogram data:', error);
     } finally {
-      setIsLoading(false);
+      setloading(false);
     }
   };
 
   const exportToCSV = () => {
     const csvContent = 'data:text/csv;charset=utf-8,';
     const headers = ['Word', 'Count'];
-    const rows = histogramData.map(([word, count]) => `${word},${count}`);
+    const rows = histData.map(([word, count]) => `${word},${count}`);
     const csvRows = [headers, ...rows].join('\n');
     const encodedCSV = encodeURI(csvContent + csvRows);
     const link = document.createElement('a');
@@ -50,8 +50,8 @@ const Wordhistogram = () => {
 
   const renderHistogram = () => {
     const ctx = document.getElementById('histogram-chart');
-    const labels = histogramData.map(([word]) => word);
-    const data = histogramData.map(([, count]) => count);
+    const labels = histData.map(([word]) => word);
+    const data = histData.map(([, count]) => count);
 
     new Chart(ctx, {
       type: 'bar',
@@ -80,10 +80,10 @@ const Wordhistogram = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      {!histogramData.length ? (
+      {!histData.length ? (
         <button
-          onClick={fetchHistogramData}
-          disabled={isLoading}
+          onClick={datafetch}
+          disabled={loading}
           style={{
             backgroundColor: '#4CAF50',
             color: 'white',
@@ -94,22 +94,36 @@ const Wordhistogram = () => {
             fontSize: '16px',
           }}
         >
-          {isLoading ? 'Loading...' : 'Submit'}
+          {loading ? 'Loading...' : 'Submit'}
         </button>
       ) : (
         <div>
-        {histogramData.length > 0 && (
+        {histData.length > 0 && (
         <>
-          <h2>Word Frequency Data & Histogram</h2>
+          <h2 style={{
+            padding:'10px',
+            marginTop:'120px',
+          }}>Word Frequency Histogram & Data</h2>
+          <canvas id="histogram-chart" width="700" height="300"></canvas>
+          <button onClick={exportToCSV} style={{
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginLeft:'40%',
+          }}>Export</button>
           <div>
-            {histogramData.map(([word, count]) => (
+            {histData.map(([word, count]) => (
               <div key={word}>
                 <span>{word}</span> - <span>{count}</span>
               </div>
             ))}
           </div>
-          <button onClick={exportToCSV}>Export</button>
-          <canvas id="histogram-chart" width="400" height="200"></canvas>
+          
+          
         </>
       )}
         </div>
