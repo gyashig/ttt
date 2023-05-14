@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
-const WordFrequencyApp = () => {
+const Wordhistogram = () => {
   const [histogramData, setHistogramData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,13 +79,28 @@ const WordFrequencyApp = () => {
   };
 
   return (
-    <div>
-      <button onClick={fetchHistogramData} disabled={isLoading}>
-        {isLoading ? 'Loading...' : 'Submit'}
-      </button>
-      {histogramData.length > 0 && (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      {!histogramData.length ? (
+        <button
+          onClick={fetchHistogramData}
+          disabled={isLoading}
+          style={{
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '16px',
+          }}
+        >
+          {isLoading ? 'Loading...' : 'Submit'}
+        </button>
+      ) : (
+        <div>
+        {histogramData.length > 0 && (
         <>
-          <h2>Word Frequency Histogram</h2>
+          <h2>Word Frequency Data & Histogram</h2>
           <div>
             {histogramData.map(([word, count]) => (
               <div key={word}>
@@ -97,8 +112,11 @@ const WordFrequencyApp = () => {
           <canvas id="histogram-chart" width="400" height="200"></canvas>
         </>
       )}
+        </div>
+      )}
     </div>
+
   );
 };
 
-export default WordFrequencyApp;
+export default Wordhistogram;
