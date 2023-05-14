@@ -7,7 +7,7 @@ const Wordhistogram = () => {
 
   useEffect(() => {
     if (histData.length > 0) {
-      renderHistogram();
+      changeHistogram();
     }
   }, [histData]);
 
@@ -48,7 +48,7 @@ const Wordhistogram = () => {
     document.body.removeChild(link);
   };
 
-  const renderHistogram = () => {
+  const changeHistogram = () => {
     const ctx = document.getElementById('histogram-chart');
     const labels = histData.map(([word]) => word);
     const data = histData.map(([, count]) => count);
@@ -102,7 +102,7 @@ const Wordhistogram = () => {
         <>
           <h2 style={{
             padding:'10px',
-            marginTop:'160px',
+            marginTop:'400px',
           }}>Word Frequency Histogram & Data</h2>
           <canvas id="histogram-chart" width="700" height="300"></canvas>
           <button onClick={exportToCSV} style={{
@@ -124,13 +124,20 @@ const Wordhistogram = () => {
                 <span>{word}</span> - <span>{count}</span>
               </div>
             ))}
+            
           </div>
+         
+          <h3>Assignment Submitted by : &nbsp;&nbsp;&nbsp;&nbsp; Name: Yashi Gupta &nbsp;&nbsp;&nbsp;&nbsp; Registration No: 12019103 &nbsp;&nbsp;&nbsp;&nbsp; Mail: yashig52@gmail.com  </h3>
+
           
           
         </>
       )}
+     
         </div>
+        
       )}
+      
     </div>
 
   );
