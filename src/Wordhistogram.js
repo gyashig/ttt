@@ -102,7 +102,7 @@ const Wordhistogram = () => {
         <>
           <h2 style={{
             padding:'10px',
-            marginTop:'120px',
+            marginTop:'160px',
           }}>Word Frequency Histogram & Data</h2>
           <canvas id="histogram-chart" width="700" height="300"></canvas>
           <button onClick={exportToCSV} style={{
@@ -115,6 +115,9 @@ const Wordhistogram = () => {
             fontSize: '16px',
             marginLeft:'40%',
           }}>Export</button>
+          
+          <p style={{fontStyle:'oblique'
+          }}>Word Frequency Data</p>
           <div>
             {histData.map(([word, count]) => (
               <div key={word}>
