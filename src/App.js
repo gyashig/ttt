@@ -1,4 +1,4 @@
-import Wordhistogram from './Wordhistogram';
+import Wordhistogram from './components/Wordhistogram';
 import './App.css';
 
 function App() {
